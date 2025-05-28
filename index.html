@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LaTeX Syntax Highlighter</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>LaTeX Syntax Highlighter</h1>
+        <div class="editor-layout">
+            <div class="editor-section">
+                <h2>LaTeX Commands</h2>
+                <div class="editor-container">
+                    <div id="editor"></div>
+                </div>
+                <div class="button-container">
+                    <button id="processButton">Process LaTeX</button>
+                    <button id="clearButton">Clear</button>
+                    <button id="insertSelected">Insert Selected Examples</button>
+                </div>
+                <label for="highlight-style">Highlight style:</label>
+                <select id="highlight-style">
+                <option value="default">Default (Blue/Green/Red)</option>
+                <option value="dark">Dark (Monokai)</option>
+                <option value="solarized">Solarized</option>
+                </select>
+            </div>
+            <div class="editor-section">
+                <h2>Highlighted Result</h2>
+                <div class="preview-container">
+                    <div id="preview"></div>
+                </div>
+            </div>
+        </div>
+        <div class="info-panel">
+            <h2>Common LaTeX Commands and Examples</h2>
+            <div class="command-groups">
+                <div class="command-group">
+                    <h3>Basic Text Formatting</h3>
+                    <ul>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="text-bold">
+                            \textbf{bold text} - Bold text
+                        </li>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="text-italic">
+                            \textit{italic text} - Italic text
+                        </li>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="text-underline">
+                            \underline{underlined text} - Underlined text
+                        </li>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="text-smallcaps">
+                            \textsc{small caps} - Small caps text
+                        </li>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="text-color">
+                            \textcolor{red}{colored text} - Colored text
+                        </li>
+                    </ul>
+                </div>
+                <div class="command-group">
+                    <h3>Mathematical Expressions</h3>
+                    <ul>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="math-inline">
+                            $x^2 + y^2 = z^2$ - Inline math
+                        </li>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="math-equation">
+                            \begin{equation} \int_{0}^{\infty} e^{-x^2} dx \end{equation}
+                        </li>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="math-fraction">
+                            $\frac{numerator}{denominator}$ - Fraction
+                        </li>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="math-sum">
+                            $\sum_{i=1}^{n} i$ - Summation
+                        </li>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="math-matrix">
+                            \begin{matrix} a & b \\ c & d \end{matrix}
+                        </li>
+                    </ul>
+                </div>
+                <div class="command-group">
+                    <h3>Document Structure</h3>
+                    <ul>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="struct-section">
+                            \section{Title} - Section heading
+                        </li>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="struct-subsection">
+                            \subsection{Subtitle} - Subsection
+                        </li>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="struct-itemize">
+                            \begin{itemize} \item Point \end{itemize}
+                        </li>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="struct-enumerate">
+                            \begin{enumerate} \item First \end{enumerate}
+                        </li>
+                    </ul>
+                </div>
+                <div class="command-group">
+                    <h3>Tables and Figures</h3>
+                    <ul>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="table-simple">
+                            \begin{tabular}{|c|c|} \hline A & B \\ \hline \end{tabular}
+                        </li>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="figure-basic">
+                            \begin{figure} \includegraphics{image} \caption{Caption} \end{figure}
+                        </li>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="table-complex">
+                            \begin{table}[h] \caption{Table Title} \end{table}
+                        </li>
+                    </ul>
+                </div>
+                <div class="command-group">
+                    <h3>Special Environments</h3>
+                    <ul>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="env-theorem">
+                            \begin{theorem} Statement \end{theorem}
+                        </li>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="env-proof">
+                            \begin{proof} Proof here \end{proof}
+                        </li>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="env-quote">
+                            \begin{quote} Quoted text \end{quote}
+                        </li>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="env-verbatim">
+                            \begin{verbatim} Exact text \end{verbatim}
+                        </li>
+                    </ul>
+                </div>
+                <div class="command-group">
+                    <h3>References and Citations</h3>
+                    <ul>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="ref-label">
+                            \label{marker} \ref{marker} - Cross-reference
+                        </li>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="ref-cite">
+                            \cite{reference} - Citation
+                        </li>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="ref-footnote">
+                            \footnote{note} - Footnote
+                        </li>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="ref-bibliography">
+                            \bibliography{bibfile} - Bibliography
+                        </li>
+                    </ul>
+                </div>
+                <div class="command-group">
+                    <h3>Advanced Mathematics</h3>
+                    <ul>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="math-align">
+                            \begin{align} - Multiple aligned equations
+                        </li>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="math-cases">
+                            \begin{cases} - Case definitions
+                        </li>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="math-limit">
+                            \lim_{x \to \infty} - Limits
+                        </li>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="math-integral">
+                            \int, \oint, \iint - Various integrals
+                        </li>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="math-symbols">
+                            \alpha, \beta, \sum, \prod - Math symbols
+                        </li>
+                    </ul>
+                </div>
+                <div class="command-group">
+                    <h3>Custom Environments</h3>
+                    <ul>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="env-definition">
+                            \newenvironment{} - Custom environment
+                        </li>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="env-theorem-custom">
+                            \newtheorem{} - Custom theorem
+                        </li>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="env-box">
+                            \newsavebox{} - Custom box
+                        </li>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="env-command">
+                            \newcommand{} - Custom command
+                        </li>
+                    </ul>
+                </div>
+                <div class="command-group">
+                    <h3>Page Layout</h3>
+                    <ul>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="layout-margins">
+                            \setlength{\margins} - Page margins
+                        </li>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="layout-header">
+                            \pagestyle{fancy} - Custom headers
+                        </li>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="layout-columns">
+                            \begin{multicols} - Multiple columns
+                        </li>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="layout-spacing">
+                            \vspace, \hspace - Custom spacing
+                        </li>
+                    </ul>
+                </div>
+                <div class="command-group">
+                    <h3>Graphics and Colors</h3>
+                    <ul>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="graphics-tikz">
+                            \begin{tikzpicture} - TikZ graphics
+                        </li>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="graphics-plot">
+                            \addplot - Function plotting
+                        </li>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="graphics-colorbox">
+                            \colorbox{} - Colored background
+                        </li>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="graphics-gradient">
+                            TikZ gradient shading
+                        </li>
+                    </ul>
+                </div>
+                <div class="command-group">
+                    <h3>Code Listings</h3>
+                    <ul>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="code-basic">
+                            \begin{lstlisting} - Basic code
+                        </li>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="code-inline">
+                            \lstinline - Inline code
+                        </li>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="code-style">
+                            \lstset - Custom styling
+                        </li>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="code-import">
+                            \lstinputlisting - Import code file
+                        </li>
+                    </ul>
+                </div>
+                <div class="command-group">
+                    <h3>Bibliography and Citations</h3>
+                    <ul>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="bib-natbib">
+                            \citep, \citet - Natbib citations
+                        </li>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="bib-biblatex">
+                            \addbibresource - BibLaTeX setup
+                        </li>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="bib-style">
+                            \bibliographystyle - Citation style
+                        </li>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="bib-custom">
+                            Custom bibliography formatting
+                        </li>
+                    </ul>
+                </div>
+                <div class="command-group">
+                    <h3>Presentations (Beamer)</h3>
+                    <ul>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="beamer-frame">
+                            \begin{frame} - Basic slide
+                        </li>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="beamer-overlay">
+                            \pause, \only - Overlays
+                        </li>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="beamer-theme">
+                            \usetheme{} - Presentation theme
+                        </li>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="beamer-blocks">
+                            \begin{block} - Content blocks
+                        </li>
+                    </ul>
+                </div>
+                <div class="command-group">
+                    <h3>Advanced Tables</h3>
+                    <ul>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="table-multirow">
+                            \multirow, \multicolumn - Spanning cells
+                        </li>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="table-longtable">
+                            \begin{longtable} - Multi-page tables
+                        </li>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="table-colors">
+                            Table with colored cells
+                        </li>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="table-custom">
+                            Custom table formatting
+                        </li>
+                    </ul>
+                </div>
+                <div class="command-group error-examples">
+                    <h3>Common Errors and Fixes</h3>
+                    <ul>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="error-math">
+                            Math Mode Errors ($/$$, \[ \])
+                        </li>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="error-brace">
+                            Missing/Mismatched Braces
+                        </li>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="error-environment">
+                            Environment Errors (begin/end)
+                        </li>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="error-special">
+                            Special Characters (%, #, &, _)
+                        </li>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="error-spacing">
+                            Spacing Errors
+                        </li>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="error-package">
+                            Package/Command Undefined
+                        </li>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="error-table">
+                            Table Structure Errors
+                        </li>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="error-figure">
+                            Figure Placement Errors
+                        </li>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="error-reference">
+                            Reference/Citation Errors
+                        </li>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="error-unicode">
+                            Unicode/Special Character Errors
+                        </li>
+                    </ul>
+                </div>
+                <div class="command-group">
+                    <h3>Error Messages and Solutions</h3>
+                    <ul>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="error-msg-undefined">
+                            Undefined control sequence
+                        </li>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="error-msg-missing">
+                            Missing $ inserted
+                        </li>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="error-msg-runaway">
+                            Runaway argument
+                        </li>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="error-msg-mismatch">
+                            Extra/Missing } or {
+                        </li>
+                        <li>
+                            <input type="checkbox" class="example-checkbox" data-example="error-msg-file">
+                            File not found
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="module" src="main.js"></script>
+</body>
+</html> 

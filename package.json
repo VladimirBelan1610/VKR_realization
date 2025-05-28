@@ -1,0 +1,22 @@
+{
+  "name": "latex-syntax-highlighter",
+  "version": "1.0.0",
+  "description": "LaTeX syntax highlighter using CodeMirror",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@codemirror/commands": "^6.3.3",
+    "@codemirror/highlight": "^0.19.8",
+    "@codemirror/language": "^6.9.3",
+    "@codemirror/state": "^6.4.0",
+    "@codemirror/view": "^6.24.1"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0"
+  }
+}
